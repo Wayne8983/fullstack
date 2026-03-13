@@ -1,16 +1,44 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
+import { BackendURL } from '../App';
+import {toast} from 'react-toastify';
 
 const Grids = () => {
+  const logout = async(e)=>{
+    e.preventDefault();
+    try{
+      const response = await axios.delete(BackendURL+'/api/users/logout');
+      if(response.data.success){
+        toast.success(response.data.message);
+      }else{
+        toast.error(response.data.error);
+      }
+
+    }catch(err){
+      toast.error(err.response.data.error);
+    }
+  }
   return (
-    <div className='grid grid-cols-3 gap-x-3 gap-y-5 grid-flow-row-dense ' >
-      <div className='bg-red-600 rounded-lg shadow-2xl min-h-[50px] col-span-2 '  />
-      <div className='bg-blue-800 rounded-lg shadow-2xl min-h-[50px] col-span-3 ' />
-      <div className='bg-gray-800 rounded-lg shadow-2xl min-h-[50px]' />
-      <div className='bg-black rounded-lg shadow-2xl min-h-[50px]' />
-      <div className='bg-pink-600 rounded-lg shadow-2xl min-h-[50px]' />
-      <div className='bg-purple-600 rounded-lg shadow-2xl min-h-[50px]' />
-      <div className='bg-yellow-600 rounded-lg shadow-2xl min-h-[50px]' />
-      <div className='bg-green-600 rounded-lg shadow-2xl min-h-[50px]' />
+    <div className="
+      grid 
+      grid-cols-1 
+      md:grid-cols-[250px_1fr] 
+      grid-rows-[60px_1fr] 
+      h-screen
+    ">
+        <nav className="col-span-1 md:col-span-2 bg-slate-800 text-white p-4">
+          Navbar
+          <button>Logout</button>
+          
+        </nav>
+
+        <aside className="hidden md:block bg-slate-200 p-4">
+          Sidebar
+        </aside>
+
+        <main className="bg-white p-4">
+          Main Content
+        </main>
     </div>
   )
 }

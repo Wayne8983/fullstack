@@ -2,6 +2,7 @@ const Users = require("../Models/user.models");
 const {hashPassword,confirmHash} = require("../Utils/hash");
 const userSchema = require("../Utils/joi");
 const {generateAccessToken,generateRefreshToken}=require("../Utils/sessions");
+const jwt =require("jsonwebtoken");
 
 
 const register = async(req,res)=>{
@@ -61,7 +62,7 @@ const login = async(req,res)=>{
     if(!email || !password){
         return res.status(400).json({
             success:false,
-        error:"All fields required"
+            error:"All fields required"
         });
     }
     try{
@@ -98,14 +99,17 @@ const login = async(req,res)=>{
             maxAge:3*24*60*60*1000
         });
 
-
+        const token = req.cookies?.refreshToken;
+        console.log(token)
         //return a login response
         return res.status(202).json({
             success:true,
             accessToken,
             refreshToken,
             message:"Login successful"
-        })
+        });
+
+        
 
 
     }catch(err){
@@ -160,6 +164,27 @@ const newToken = async(req,res)=>{
 
 }
 
+const logout =async(req,res)=>{
+    try {
+        const token = req.cookies?.refreshToken;
+        if(token) {
+            const user = await Users.findOne({refreshToken:token});
+            if(user) 
+                user.refreshToken = null;
+                await user.save();
+        }
+        res.clearCookie("refreshToken");
+        res.status(200).json({
+            success:true,
+            message:"Seems like you logout...anyway bye bye"
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success:false,
+            error:err.message
+        });
+    }
+}
 
 
 
@@ -172,4 +197,5 @@ const newToken = async(req,res)=>{
 
 
 
-module.exports = {register,login,getProfile,newToken};
+
+module.exports = {register,login,getProfile,newToken,logout};
