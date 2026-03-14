@@ -58,8 +58,8 @@ const Form = ({setToken}) => {
         
         {currentForm==="SignUp"? (
           <div className='flex flex-col gap-4' >
-            <div className='bg-gray-400 flex flex-row'>
-              
+            <div className='bg-gray-400 flex flex-row items-center px-2 gap-3'>
+              <User color='white 'fontSize={18} />
               <input 
               type='text' 
               value={firstName} 
@@ -68,7 +68,8 @@ const Form = ({setToken}) => {
               className='py-2.5 border-black focus:outline-0 w-full'
               />
             </div>
-            <div className='bg-gray-400'>
+            <div className='bg-gray-400 flex flex-row items-center px-2 gap-3 '>
+                <User color='white 'fontSize={18} />
                 <input 
                 type='text' 
                 value={surName} 
@@ -77,7 +78,8 @@ const Form = ({setToken}) => {
                 className='py-2.5 border-black focus:outline-0 w-full'
                 />
             </div>
-            <div className='bg-gray-400' >
+            <div className='bg-gray-400 flex flex-row items-center gap-3 px-2 ' >
+              <User color='white 'fontSize={18} />
               <input 
               type='text' 
               value={lastName} 
